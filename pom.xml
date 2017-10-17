@@ -36,12 +36,12 @@
 			<scope>test</scope>
 		</dependency>
 
-		<!-- 追加: ここから 2017/10/17 -->
+		<!-- 追加: ここから 2017/10/17 タイムリーフ -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-thymeleaf</artifactId>
 		</dependency>
-		<!-- 追加: ここまで 2017/10/17 -->
+		<!-- 追加: ここまで 2017/10/17-->
 	</dependencies>
 
 	<build>

@@ -1,0 +1,4 @@
+spring:
+
+server:
+  context-path: /BookManager
