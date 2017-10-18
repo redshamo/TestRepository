@@ -27,8 +27,10 @@ public class BookInfoRepository {
 	private NamedParameterJdbcTemplate jdbcTemplate;
 
 	// とりあえず全件検索
-	public List<Book> findAll() {
-		List<Book> bookList = jdbcTemplate.query("SELECT * FROM bookinfo ORDER BY id", BOOK_ROW_MAPPER);
+	public List<Book> findAll(Boolean eFlag) {
+		int id = eFlag ? 1 : 0;
+		List<Book> bookList = jdbcTemplate.query("SELECT * FROM bookinfo WHERE rflag = :id ORDER BY id",
+				new MapSqlParameterSource().addValue("id", id), BOOK_ROW_MAPPER);
 		return bookList;
 	}
 }

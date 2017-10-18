@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8" />
+<title>BookList</title>
+<link href="/css/stylesheet.css" th:href="@{/css/stylesheet.css}"
+	rel="stylesheet" />
+</head>
+<body>
+	<div class="bkRGBA">
+		<h2 th:if="${rFlag == false}">通常盤</h2>
+		<h2 th:if="${rFlag == true}">R版</h2>
+		<form method="post" th:action="@{/bookList}">
+			検索：<input class="search" type="text" name="word" th:placeholder="${value}" th:value="${word}" />
+			<input type="hidden" name="rFlag" th:value="${rFlag}" />
+			<select name="star">
+				<option value="-1">指定なし</option>
+				<option value="0">0(未評価)</option>
+				<option value="3">1~3</option>
+				<option value="4">3~4</option>
+				<option value="5">4~5</option>
+			</select>
+			<input type="submit" value="Click" />
+		</form>
+		<ul>
+			<li th:each="book : ${bookList}">
+				<p th:text="'タイトル：'+${book.title}" />
+				<p th:text="'はんてい：'+${book.rFlag}" />
+				<p th:text="'ファイル：'+${book.fileName}" />
+				<p th:text="'ひょうか：'+${book.star}" />
+			</li>
+		</ul>
+		<a th:href="@{/}">TOP</a>
+	</div>
+</body>
+</html>
