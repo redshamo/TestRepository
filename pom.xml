@@ -36,12 +36,35 @@
 			<scope>test</scope>
 		</dependency>
 
-		<!-- 追加: ここから 2017/10/17 タイムリーフ -->
+		<!-- 追加:2017/10/17 タイムリーフ -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-thymeleaf</artifactId>
 		</dependency>
-		<!-- 追加: ここまで 2017/10/17-->
+		<!-- 追加: ここまで 2017/10/17 -->
+		<!-- 追加：2017/10/18 -->
+		<!-- lombok -->
+		<dependency>
+			<groupId>org.projectlombok</groupId>
+			<artifactId>lombok</artifactId>
+			<scope>provided</scope>
+		</dependency>
+		<!-- springJDBC -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-jdbc</artifactId>
+		</dependency>
+		<!--postgres -->
+		<dependency>
+			<groupId>org.postgresql</groupId>
+			<artifactId>postgresql</artifactId>
+			<scope>runtime</scope>
+		</dependency>
+		<!-- 10/18 ここまで -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-data-solr</artifactId>
+		</dependency>
 	</dependencies>
 
 	<build>

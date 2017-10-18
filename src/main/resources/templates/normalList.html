@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8" />
+<title>Books 一般版</title>
+<link href="/css/stylesheet.css" th:href="@{/css/stylesheet.css}"
+	rel="stylesheet" />
+</head>
+<body>
+	<div class="bkRGBA">
+		<ul>
+			<li th:each="book : ${bookList}">
+				<p th:text="'タイトル：'+${book.title}" />
+				<p th:text="'はんてい：'+${book.rFlag}" />
+				<p th:text="'ファイル：'+${book.fileName}" />
+				<p th:text="'ひょうか：'+${book.star}" />
+			</li>
+		</ul>
+		<a th:href="@{/}">TOP</a>
+	</div>
+</body>
+</html>
