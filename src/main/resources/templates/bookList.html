@@ -11,14 +11,15 @@
 		<h2 th:if="${rFlag == false}">通常盤</h2>
 		<h2 th:if="${rFlag == true}">R版</h2>
 		<form method="post" th:action="@{/bookList}">
-			検索：<input class="search" type="text" name="word" th:placeholder="${value}" th:value="${word}" />
 			<input type="hidden" name="rFlag" th:value="${rFlag}" />
+			検索：
+			<select name="id">
+  				<option value="-1">指定なし</option>
+  				<option th:each="original : ${originalList}" th:value="${original.id}" th:text="${original.title}" th:selected="${original.id == id}"/>
+			</select>
 			<select name="star">
 				<option value="-1">指定なし</option>
-				<option value="0">0(未評価)</option>
-				<option value="3">1~3</option>
-				<option value="4">3~4</option>
-				<option value="5">4~5</option>
+  				<option th:each="i : ${#numbers.sequence(0, 5)}" th:value="${i}" th:text="${i}+ '点'" th:selected="${star == i}"/>
 			</select>
 			<input type="submit" value="Click" />
 		</form>
