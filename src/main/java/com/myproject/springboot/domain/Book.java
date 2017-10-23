@@ -17,7 +17,7 @@ public class Book {
 	// 表紙のファイル名
 	String fileName;
 	// 元作品
-	String original;
+	Integer originalId;
 	// 評価
 	Integer star;
 }

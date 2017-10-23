@@ -11,14 +11,14 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.myproject.springboot.domain.Book;
 import com.myproject.springboot.domain.Original;
-import com.myproject.springboot.repository.BookInfoRepository;
 import com.myproject.springboot.repository.OriginalRepository;
+import com.myproject.springboot.service.BookInfoService;
 
 @RestController
 public class MainController {
 
 	@Autowired
-	BookInfoRepository bookInfoRepository;
+	BookInfoService bookInfoService;
 
 	@Autowired
 	OriginalRepository originalRepository;
@@ -40,7 +40,7 @@ public class MainController {
 
 	@RequestMapping(value = "/bookList", method = RequestMethod.GET)
 	public ModelAndView viewList(@RequestParam("rFlag") boolean rFlag, ModelAndView mav) {
-		List<Book> bookList = bookInfoRepository.findAll(rFlag);
+		List<Book> bookList = bookInfoService.findAll(rFlag);
 		List<Original> originalList = originalRepository.findAll();
 		mav.setViewName("bookList");
 		mav.addObject(bookList);
@@ -52,9 +52,10 @@ public class MainController {
 	@RequestMapping(value = "/bookList", method = RequestMethod.POST)
 	public ModelAndView searchList(@RequestParam("star") Integer star, @RequestParam("rFlag") boolean rFlag,
 			@RequestParam("id") Integer id, ModelAndView mav) {
-		// 仮置き
 		// id...original.id
-		List<Book> bookList = bookInfoRepository.findAll(rFlag);
+		System.out.println("star:" + star);
+		System.out.println("元ネタID:" + id);
+		List<Book> bookList = bookInfoService.search(rFlag, star, id);
 		List<Original> originalList = originalRepository.findAll();
 		mav.addObject(bookList);
 		mav.setViewName("bookList");
@@ -62,7 +63,6 @@ public class MainController {
 		mav.addObject("rFlag", rFlag);
 		mav.addObject("id", id);
 		mav.addObject("star", star);
-		
 		return mav;
 	}
 }

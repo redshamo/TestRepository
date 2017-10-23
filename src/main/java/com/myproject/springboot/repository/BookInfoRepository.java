@@ -18,19 +18,47 @@ public class BookInfoRepository {
 		boolean rFlag = (rs.getInt("rFlag") == 1);
 		String title = rs.getString("title");
 		String fileName = rs.getString("fileName");
-		String original = rs.getString("original");
+		Integer originalId = rs.getInt("original_id");
 		Integer star = rs.getInt("star");
-		return new Book(id, rFlag, title, fileName, original, star);
+		return new Book(id, rFlag, title, fileName, originalId, star);
 	};
 
 	@Autowired
 	private NamedParameterJdbcTemplate jdbcTemplate;
 
 	// とりあえず全件検索
-	public List<Book> findAll(Boolean eFlag) {
-		int id = eFlag ? 1 : 0;
+	public List<Book> findAll(Integer id) {
 		List<Book> bookList = jdbcTemplate.query("SELECT * FROM bookinfo WHERE rflag = :id ORDER BY id",
 				new MapSqlParameterSource().addValue("id", id), BOOK_ROW_MAPPER);
 		return bookList;
 	}
+
+	// 元ネタから検索
+	public List<Book> searchByTitle(Integer id, Integer originalId) {
+		System.out.println("元ネタから検索");
+		List<Book> bookList = jdbcTemplate.query(
+				"SELECT * FROM bookinfo WHERE rflag = :id AND original_id = :originalId ORDER BY id",
+				new MapSqlParameterSource().addValue("id", id).addValue("originalId", originalId), BOOK_ROW_MAPPER);
+		return bookList;
+	}
+
+	// 評価から検索
+	public List<Book> searchByStar(Integer id, Integer star) {
+		System.out.println("評価から検索");
+		List<Book> bookList = jdbcTemplate.query("SELECT * FROM bookinfo WHERE rflag = :id AND star = :star ORDER BY id",
+				new MapSqlParameterSource().addValue("id", id).addValue("star", star), BOOK_ROW_MAPPER);
+		return bookList;
+	}
+
+	// 元ネタ、評価で検索
+	public List<Book> searchByAll(Integer id, Integer star, Integer originalId) {
+		System.out.println("両方で検索");
+		List<Book> bookList = jdbcTemplate.query(
+				"SELECT * FROM bookinfo WHERE rflag = :id AND star = :star AND original_id = :originalId ORDER BY id",
+				new MapSqlParameterSource().addValue("id", id).addValue("star", star).addValue("originalId",
+						originalId),
+				BOOK_ROW_MAPPER);
+		return bookList;
+	}
+
 }
