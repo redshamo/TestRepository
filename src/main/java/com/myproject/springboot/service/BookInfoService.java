@@ -1,5 +1,6 @@
 package com.myproject.springboot.service;
 
+import java.io.IOException;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,4 +38,25 @@ public class BookInfoService {
 		return bookList;
 	}
 
+	// フォルダオープン
+	public void openFolder(String path) {
+		try {
+			Runtime rt = Runtime.getRuntime();
+			String cmd;
+			String osNAME = System.getProperty("os.name").toLowerCase();
+			System.out.println(osNAME);
+			path = "/Users/youmon/Downloads";
+			if (osNAME.equals("mac os x")) {
+				cmd = "/usr/bin/open -a /System/Library/CoreServices/Finder.app " + path;
+				rt.exec(cmd);
+			} else if (osNAME.equals("windows")) {
+				cmd = "explorer " + path;
+				rt.exec(cmd);
+			} else {
+				// 保証対象外のOSです。的なメッセージを返す？
+			}
+		} catch (IOException e) {
+			System.err.println(e);
+		}
+	}
 }
