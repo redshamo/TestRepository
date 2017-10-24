@@ -33,10 +33,11 @@ public class MainController {
 	@RequestMapping(value = "/", method = RequestMethod.POST)
 	public ModelAndView send(@RequestParam("name") String name, ModelAndView mav) {
 		mav.setViewName("index");
-		// 仮置きテスト　後で消す
+		// 仮置きテスト 後で消す
 		mav.addObject("msg", "Hello " + name + " !"); // 表示メッセージ
 		mav.addObject("value", name); // 入力テキストに入力値を表示
-		bookInfoService.openFolder(null);
+		bookInfoService.openFolder(null); // フォルダオープンテスト
+		bookInfoService.copyFrontPage(); // 表紙コピーテスト
 		return mav;
 	}
 

@@ -28,6 +28,7 @@
 				<p th:text="'タイトル：'+${book.title}" />
 				<p th:text="'はんてい：'+${book.rFlag}" />
 				<p th:text="'ファイル：'+${book.fileName}" />
+				<img th:src="@{'/images/'+${book.fileName}}"/>
 				<p th:text="'ひょうか：'+${book.star}" />
 			</li>
 		</ul>

@@ -1,6 +1,8 @@
 package com.myproject.springboot.service;
 
+import java.io.File;
 import java.io.IOException;
+import java.nio.file.*;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -58,5 +60,21 @@ public class BookInfoService {
 		} catch (IOException e) {
 			System.err.println(e);
 		}
+	}
+
+	// 表紙をコピーしてくる
+	public void copyFrontPage() {
+		String fileName = "test.jpg";
+		FileSystem fileSystem = FileSystems.getDefault();
+		Path inputPath = fileSystem.getPath("/Users/youmon/Desktop/" + fileName);
+		Path outputPath = Paths
+				.get(new File(".").getAbsoluteFile().getParent() + "/src/main/resources/static/images/" + fileName);
+		try {
+			Files.copy(inputPath, outputPath);
+		} catch (IOException e) {
+			// TODO 自動生成された catch ブロック
+			e.printStackTrace();
+		}
+
 	}
 }
