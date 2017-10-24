@@ -3,8 +3,7 @@
 <head>
 <meta charset="UTF-8" />
 <title>BookList</title>
-<link href="/css/stylesheet.css" th:href="@{/css/stylesheet.css}"
-	rel="stylesheet" />
+<link href="/css/stylesheet.css" th:href="@{/css/stylesheet.css}" rel="stylesheet" />
 </head>
 <body>
 	<div class="bkRGBA">
@@ -25,11 +24,16 @@
 		</form>
 		<ul>
 			<li th:each="book : ${bookList}">
-				<p th:text="'タイトル：'+${book.title}" />
-				<p th:text="'はんてい：'+${book.rFlag}" />
-				<p th:text="'ファイル：'+${book.fileName}" />
-				<img th:src="@{'/images/'+${book.fileName}}"/>
-				<p th:text="'ひょうか：'+${book.star}" />
+				<form method="post" th:action="@{/bookDetail}">
+					<p th:text="'タイトル：'+${book.title}" />
+					<p th:text="'はんてい：'+${book.rFlag}" />
+					<p th:text="'ファイル：'+${book.fileName}" />
+					<img th:src="@{'/images/'+${book.fileName}}"/>
+					<p th:text="'ひょうか：'+${book.star}" />
+					<input type="hidden" name="rFlag" th:value="${rFlag}" />
+					<input type="hidden" name="bookId" th:value="${book.id}" />
+					<input type="submit" value="詳細表示" />
+				</form>
 			</li>
 		</ul>
 		<a th:href="@{/}">TOP</a>

@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
+import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 import com.myproject.springboot.domain.Book;
@@ -45,7 +46,8 @@ public class BookInfoRepository {
 	// 評価から検索
 	public List<Book> searchByStar(Integer id, Integer star) {
 		System.out.println("評価から検索");
-		List<Book> bookList = jdbcTemplate.query("SELECT * FROM bookinfo WHERE rflag = :id AND star = :star ORDER BY id",
+		List<Book> bookList = jdbcTemplate.query(
+				"SELECT * FROM bookinfo WHERE rflag = :id AND star = :star ORDER BY id",
 				new MapSqlParameterSource().addValue("id", id).addValue("star", star), BOOK_ROW_MAPPER);
 		return bookList;
 	}
@@ -61,4 +63,10 @@ public class BookInfoRepository {
 		return bookList;
 	}
 
+	// 詳細表示
+	public Book findDetail(Integer bookId) {
+		SqlParameterSource param = new MapSqlParameterSource().addValue("id", bookId);
+		Book book = jdbcTemplate.queryForObject("SELECT * FROM bookinfo WHERE id = :id", param, BOOK_ROW_MAPPER);
+		return book;
+	}
 }

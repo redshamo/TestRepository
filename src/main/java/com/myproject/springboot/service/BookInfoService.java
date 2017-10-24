@@ -20,8 +20,12 @@ public class BookInfoService {
 	// 何も考えずに全検索
 	public List<Book> findAll(Boolean eFlag) {
 		int id = eFlag ? 1 : 0;
-		List<Book> bookList = bookInfoRepository.findAll(id);
-		return bookList;
+		return bookInfoRepository.findAll(id);
+	}
+
+	// 詳細表示
+	public Book findDetail(Integer bookId) {
+		return bookInfoRepository.findDetail(bookId);
 	}
 
 	// 絞り込み検索

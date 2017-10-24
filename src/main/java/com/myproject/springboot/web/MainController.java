@@ -23,6 +23,7 @@ public class MainController {
 	@Autowired
 	OriginalRepository originalRepository;
 
+	// 初期表示 TOP
 	@RequestMapping(value = "/", method = RequestMethod.GET)
 	public ModelAndView index(ModelAndView mav) {
 		mav.setViewName("index");
@@ -30,6 +31,7 @@ public class MainController {
 		return mav;
 	}
 
+	// テスト用 TOPに戻る
 	@RequestMapping(value = "/", method = RequestMethod.POST)
 	public ModelAndView send(@RequestParam("name") String name, ModelAndView mav) {
 		mav.setViewName("index");
@@ -41,6 +43,7 @@ public class MainController {
 		return mav;
 	}
 
+	// 一覧表示(初回)
 	@RequestMapping(value = "/bookList", method = RequestMethod.GET)
 	public ModelAndView viewList(@RequestParam("rFlag") boolean rFlag, ModelAndView mav) {
 		List<Book> bookList = bookInfoService.findAll(rFlag);
@@ -52,10 +55,11 @@ public class MainController {
 		return mav;
 	}
 
+	// 一覧表示(検索)
 	@RequestMapping(value = "/bookList", method = RequestMethod.POST)
 	public ModelAndView searchList(@RequestParam("star") Integer star, @RequestParam("rFlag") boolean rFlag,
 			@RequestParam("id") Integer id, ModelAndView mav) {
-		// id...original.id
+		// id = original.id
 		System.out.println("star:" + star);
 		System.out.println("元ネタID:" + id);
 		List<Book> bookList = bookInfoService.search(rFlag, star, id);
@@ -66,6 +70,53 @@ public class MainController {
 		mav.addObject("rFlag", rFlag);
 		mav.addObject("id", id);
 		mav.addObject("star", star);
+		return mav;
+	}
+
+	// 詳細表示 BOOKページ表示
+	@RequestMapping(value = "/bookDetail")
+	public ModelAndView viewDetail(@RequestParam("rFlag") boolean rFlag, @RequestParam("bookId") Integer bookId,
+			ModelAndView mav) {
+		Book book = bookInfoService.findDetail(bookId);
+		if (rFlag) {
+			mav.setViewName("rdetail");
+		} else {
+			mav.setViewName("normaldetail");
+		}
+		mav.addObject(book);
+		mav.addObject("rFlag", rFlag);
+		return mav;
+	}
+
+	// 本を開く ※できれば非同期で行いたい
+	@RequestMapping(value = "/openBook", method = RequestMethod.GET)
+	public ModelAndView openFolder(@RequestParam("rFlag") boolean rFlag, @RequestParam("bookId") Integer bookId,
+			ModelAndView mav) {
+		bookInfoService.openFolder(null); // フォルダオープンテスト
+		Book book = bookInfoService.findDetail(bookId);
+		if (rFlag) {
+			mav.setViewName("rdetail");
+		} else {
+			mav.setViewName("normaldetail");
+		}
+		mav.addObject(book);
+		mav.addObject("rFlag", rFlag);
+		return mav;
+	}
+
+	// 評価更新 ※できれば非同期で行いたい
+	@RequestMapping(value = "/openBook", method = RequestMethod.POST)
+	public ModelAndView updateStar(@RequestParam("rFlag") boolean rFlag, @RequestParam("bookId") Integer bookId,
+			@RequestParam("star") Integer star, ModelAndView mav) {
+		// ここで更新処理
+		Book book = bookInfoService.findDetail(bookId);
+		if (rFlag) {
+			mav.setViewName("rdetail");
+		} else {
+			mav.setViewName("normaldetail");
+		}
+		mav.addObject(book);
+		mav.addObject("rFlag", rFlag);
 		return mav;
 	}
 }

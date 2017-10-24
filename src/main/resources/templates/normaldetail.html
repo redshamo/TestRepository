@@ -1,10 +1,35 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="UTF-8">
+<meta charset="UTF-8"/>
 <title>Insert title here</title>
+<link href="/css/stylesheet.css" th:href="@{/css/stylesheet.css}" rel="stylesheet" />
 </head>
 <body>
-
+	<div class="bkRGBA">
+		<h2 th:if="${rFlag == false}">通常盤</h2>
+		<h2 th:if="${rFlag == true}">R版</h2>
+		<p th:text="'タイトル：'+${book.title}" />
+		<p th:text="'はんてい：'+${book.rFlag}" />
+		<p th:text="'ファイル：'+${book.fileName}" />
+		<img th:src="@{'/images/'+${book.fileName}}" />
+		<p th:text="'ひょうか：'+${book.star}" />
+		<form method="get" th:action="@{/openBook}">
+			<input type="hidden" name="rFlag" th:value="${rFlag}"/>
+			<input type="hidden" name="bookId" th:value="${book.id}"/>
+			<input type="submit" value="この作品を読む" />
+		</form>
+		<form method="post" th:action="@{/openBook}">
+			<input type="hidden" name="rFlag" th:value="${rFlag}"/>
+			<input type="hidden" name="bookId" th:value="${book.id}"/>
+			評価を更新してください：
+			<select name="star">
+  				<option th:each="i : ${#numbers.sequence(0, 5)}" th:value="${i}" th:text="${i}+ '点'" th:selected="${star == i}"/>
+			</select>
+			<input type="submit" value="評価更新！" />
+		</form>
+		<a href="javascript:history.back();">戻る</a><br/>
+		<a th:href="@{/}">TOP</a>
+	</div>
 </body>
 </html>
