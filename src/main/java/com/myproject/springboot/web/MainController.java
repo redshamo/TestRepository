@@ -35,9 +35,6 @@ public class MainController {
 	public ModelAndView send(@RequestParam("name") String name, ModelAndView mav) {
 		mav.setViewName("index");
 		// 仮置きテスト 後で消す
-		mav.addObject("msg", "Hello " + name + " !"); // 表示メッセージ
-		mav.addObject("value", name); // 入力テキストに入力値を表示
-		bookInfoService.openFolder(null); // フォルダオープンテスト
 		bookInfoService.copyFrontPage(); // 表紙コピーテスト
 		return mav;
 	}
@@ -87,24 +84,42 @@ public class MainController {
 	@RequestMapping(value = "/insert", method = RequestMethod.POST)
 	public ModelAndView viewInsert(@RequestParam("pass") String pass, ModelAndView mav) {
 		if (pass.equals("master")) {
-			mav.setViewName("bookinsert");
+			List<Original> originalList = originalRepository.findAll();
+			mav.addObject(originalList);
+			mav.setViewName("insert");
 		} else {
 			mav.setViewName("index");
 		}
 		return mav;
 	}
 
+	// 登録実施
+	@RequestMapping(value = "/insert", method = RequestMethod.GET)
+	public ModelAndView insert(@RequestParam("title") String title, @RequestParam("rFlag") Integer rFlag,
+			@RequestParam("originalId") Integer originalId, ModelAndView mav) {
+		/** ここで新規登録 */
+		List<Original> originalList = originalRepository.findAll();
+		mav.addObject(originalList);
+		mav.addObject("originalId",originalId);
+		mav.addObject("title", title);
+		mav.setViewName("insert");
+		mav.addObject("msg", "登録完了しました！");
+		return mav;
+	}
+
 	// 本を開く(非同期
 	@RequestMapping(value = "/openBook", method = RequestMethod.GET)
-	public void openFolder(String bookId) {
+	public String openFolder(String bookId) {
 		String path = bookInfoService.createPath(Integer.parseInt(bookId));
-		bookInfoService.openFolder(path); // フォルダオープンテスト
+		bookInfoService.openFolder(path);
+		return "表示に成功しました！読み終わったら評価の更新もお願いします！";
 	}
 
 	// 評価更新(非同期
 	@RequestMapping(value = "/openBook", method = RequestMethod.POST)
-	public void updateStar(String[] values) {
-		/** ここで更新処理 */
+	public String updateStar(String[] values) {
+		// values:{bookID,star}
 		bookInfoService.updateStar(values[0], values[1]);
+		return "更新成功しました！";
 	}
 }

@@ -9,6 +9,7 @@
 	<div class="bkRGBA">
 		<h2 th:if="${rFlag == false}">通常盤</h2>
 		<h2 th:if="${rFlag == true}">R版</h2>
+		<p id="result"/>
 		<p th:text="'タイトル：'+${book.title}" />
 		<p th:text="'はんてい：'+${book.rFlag}" />
 		<p th:text="'ファイル：'+${book.fileName}" />
@@ -41,7 +42,7 @@
 	            url: "openBook",
 	            data: {bookId: bookId},
 	            success: function(msg) {
-	                $("#select2").html(msg);
+	                $("#result").html(msg);
 	            }
 		    });
 		});
@@ -53,7 +54,13 @@
 		    	type: "POST",
 	            url: "openBook",
 	            data: { values: [bookId, star] },
-	            traditional: true
+	            traditional: true,
+	            success: function(msg) {
+	                $("#result").html(msg);
+	            },
+	            error: function () {
+	                alert("更新に失敗しました(・ω・`)");
+	            }
 		    });
 		});
 	</script>

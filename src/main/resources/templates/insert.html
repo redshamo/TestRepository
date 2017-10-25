@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>insert</title>
+<link href="/css/stylesheet.css" th:href="@{/css/stylesheet.css}" rel="stylesheet" />
+</head>
+<body>
+	<div class="bkRGBA">
+	<p th:text="${msg}"/>
+	<p>作品登録</p>
+		<form method="get" th:action="@{/insert}">
+			<select name="rFlag">
+				<option value="0">一般</option>
+				<option value="1" selected="selected">R般</option>
+			</select>
+			<input type="text" name="title" th:value="${title}" />
+			<select name="originalId">
+  				<option th:each="original : ${originalList}" th:value="${original.id}" th:text="${original.title}" th:selected="${original.id == originalId}"/>
+			</select>
+			<input type="submit" value="作品登録" />
+		</form>
+	<p>元ネタ登録</p>
+		<!-- 後ほどこっちも実装 -->
+		<form method="get" th:action="@{/insert}">
+		</form>
+		<a th:href="@{/}">TOP</a>
+	</div>
+</body>
+</html>
