@@ -14,22 +14,48 @@
 		<p th:text="'ファイル：'+${book.fileName}" />
 		<img th:src="@{'/images/'+${book.fileName}}" />
 		<p th:text="'ひょうか：'+${book.star}" />
-		<form method="get" th:action="@{/openBook}">
-			<input type="hidden" name="rFlag" th:value="${rFlag}"/>
-			<input type="hidden" name="bookId" th:value="${book.id}"/>
-			<input type="submit" value="この作品を読む" />
-		</form>
-		<form method="post" th:action="@{/openBook}">
-			<input type="hidden" name="rFlag" th:value="${rFlag}"/>
-			<input type="hidden" name="bookId" th:value="${book.id}"/>
-			評価を更新してください：
-			<select name="star">
-  				<option th:each="i : ${#numbers.sequence(0, 5)}" th:value="${i}" th:text="${i}+ '点'" th:selected="${star == i}"/>
-			</select>
-			<input type="submit" value="評価更新！" />
-		</form>
+		<!--/*　フォルダを開く　*/-->
+		<input type="hidden" name="rFlag" th:value="${rFlag}"/>
+		<input type="hidden" name="bookId" th:value="${book.id}" id="bookId"/>
+		<input type="button" value="この作品を読む" id="openBook"/>
+		
+		<!--/* 評価する */-->
+		<input type="hidden" name="rFlag" th:value="${rFlag}"/>
+		<input type="hidden" name="bookId" th:value="${book.id}"/>
+		評価を更新してください：
+		<select name="star" id="select_star">
+  			<option th:each="i : ${#numbers.sequence(0, 5)}" th:value="${i}" th:text="${i}+ '点'" th:selected="${star == i}"/>
+		</select>
+		<input type="button" value="評価更新！" id="updateStar"/>
+		
 		<a href="javascript:history.back();">戻る</a><br/>
 		<a th:href="@{/}">TOP</a>
 	</div>
+	<!--/*　非同期通信　*/-->
+	<script src="//code.jquery.com/jquery-3.1.1.min.js"></script>
+	<script type="text/javascript">
+		$("#openBook").click( function(){
+		    var bookId = $("#bookId").val();//2が入ってる
+		    $.ajax({
+		    	type: "GET",
+	            url: "openBook",
+	            data: {bookId: bookId},
+	            success: function(msg) {
+	                $("#select2").html(msg);
+	            }
+		    });
+		});
+		
+		$("#updateStar").click( function(){
+		    var bookId = $("#bookId").val();//2が入ってる
+		    var star = $("#select_star").val();
+		    $.ajax({
+		    	type: "POST",
+	            url: "openBook",
+	            data: { values: [bookId, star] },
+	            traditional: true
+		    });
+		});
+	</script>
 </body>
 </html>

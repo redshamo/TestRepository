@@ -88,35 +88,18 @@ public class MainController {
 		return mav;
 	}
 
-	// 本を開く ※できれば非同期で行いたい
+	// 本を開く(非同期
 	@RequestMapping(value = "/openBook", method = RequestMethod.GET)
-	public ModelAndView openFolder(@RequestParam("rFlag") boolean rFlag, @RequestParam("bookId") Integer bookId,
-			ModelAndView mav) {
+	public void openFolder(String bookId) {
+		/** ここでDB接続し、フォルダの場所を取得する */
 		bookInfoService.openFolder(null); // フォルダオープンテスト
-		Book book = bookInfoService.findDetail(bookId);
-		if (rFlag) {
-			mav.setViewName("rdetail");
-		} else {
-			mav.setViewName("normaldetail");
-		}
-		mav.addObject(book);
-		mav.addObject("rFlag", rFlag);
-		return mav;
 	}
 
-	// 評価更新 ※できれば非同期で行いたい
+	// 評価更新(非同期
 	@RequestMapping(value = "/openBook", method = RequestMethod.POST)
-	public ModelAndView updateStar(@RequestParam("rFlag") boolean rFlag, @RequestParam("bookId") Integer bookId,
-			@RequestParam("star") Integer star, ModelAndView mav) {
-		// ここで更新処理
-		Book book = bookInfoService.findDetail(bookId);
-		if (rFlag) {
-			mav.setViewName("rdetail");
-		} else {
-			mav.setViewName("normaldetail");
-		}
-		mav.addObject(book);
-		mav.addObject("rFlag", rFlag);
-		return mav;
+	public void updateStar(String[] values) {
+		/** ここで更新処理 */
+		System.out.println(values[0]);
+		System.out.println(values[1]);
 	}
 }
