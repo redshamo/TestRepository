@@ -69,5 +69,10 @@ public class BookInfoRepository {
 		Book book = jdbcTemplate.queryForObject("SELECT * FROM bookinfo WHERE id = :id", param, BOOK_ROW_MAPPER);
 		return book;
 	}
-	
+
+	// 評価更新
+	public void updateStar(Integer id, Integer star) {
+		jdbcTemplate.update("UPDATE bookinfo SET star = :star WHERE id = :id",
+				new MapSqlParameterSource().addValue("id", id).addValue("star", star));
+	}
 }

@@ -7,6 +7,7 @@ import java.nio.file.FileSystems;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -51,6 +52,13 @@ public class BookInfoService {
 			bookList = bookInfoRepository.searchByAll(id, star, originalId);
 		}
 		return bookList;
+	}
+	
+	// 評価更新
+	public void updateStar(String strId,String strStar) {
+		Integer bookId = Integer.parseInt(strId);
+		Integer star = Integer.parseInt(strStar);
+		bookInfoRepository.updateStar(bookId, star);
 	}
 
 	// パスを作成
@@ -97,7 +105,7 @@ public class BookInfoService {
 		Path outputPath = Paths
 				.get(new File(".").getAbsoluteFile().getParent() + "/src/main/resources/static/images/" + fileName);
 		try {
-			Files.copy(inputPath, outputPath);
+			Files.copy(inputPath, outputPath, StandardCopyOption.REPLACE_EXISTING);
 		} catch (IOException e) {
 			// TODO 自動生成された catch ブロック
 			e.printStackTrace();

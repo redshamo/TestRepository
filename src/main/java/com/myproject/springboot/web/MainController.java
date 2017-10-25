@@ -27,7 +27,6 @@ public class MainController {
 	@RequestMapping(value = "/", method = RequestMethod.GET)
 	public ModelAndView index(ModelAndView mav) {
 		mav.setViewName("index");
-		mav.addObject("msg", "input your name :"); // 表示メッセージ
 		return mav;
 	}
 
@@ -84,6 +83,17 @@ public class MainController {
 		return mav;
 	}
 
+	// 登録ページ遷移
+	@RequestMapping(value = "/insert", method = RequestMethod.POST)
+	public ModelAndView viewInsert(@RequestParam("pass") String pass, ModelAndView mav) {
+		if (pass.equals("master")) {
+			mav.setViewName("bookinsert");
+		} else {
+			mav.setViewName("index");
+		}
+		return mav;
+	}
+
 	// 本を開く(非同期
 	@RequestMapping(value = "/openBook", method = RequestMethod.GET)
 	public void openFolder(String bookId) {
@@ -95,7 +105,6 @@ public class MainController {
 	@RequestMapping(value = "/openBook", method = RequestMethod.POST)
 	public void updateStar(String[] values) {
 		/** ここで更新処理 */
-		System.out.println(values[0]);
-		System.out.println(values[1]);
+		bookInfoService.updateStar(values[0], values[1]);
 	}
 }

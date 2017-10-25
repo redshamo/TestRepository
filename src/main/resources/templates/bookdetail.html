@@ -2,7 +2,7 @@
 <html>
 <head>
 <meta charset="UTF-8"/>
-<title>Insert title here</title>
+<title>bookdetal</title>
 <link href="/css/stylesheet.css" th:href="@{/css/stylesheet.css}" rel="stylesheet" />
 </head>
 <body>
@@ -35,7 +35,7 @@
 	<script src="//code.jquery.com/jquery-3.1.1.min.js"></script>
 	<script type="text/javascript">
 		$("#openBook").click( function(){
-		    var bookId = $("#bookId").val();//2が入ってる
+		    var bookId = $("#bookId").val();
 		    $.ajax({
 		    	type: "GET",
 	            url: "openBook",
@@ -47,7 +47,7 @@
 		});
 		
 		$("#updateStar").click( function(){
-		    var bookId = $("#bookId").val();//2が入ってる
+		    var bookId = $("#bookId").val();
 		    var star = $("#select_star").val();
 		    $.ajax({
 		    	type: "POST",
