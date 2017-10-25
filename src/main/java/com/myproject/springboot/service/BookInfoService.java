@@ -2,20 +2,29 @@ package com.myproject.springboot.service;
 
 import java.io.File;
 import java.io.IOException;
-import java.nio.file.*;
+import java.nio.file.FileSystem;
+import java.nio.file.FileSystems;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.myproject.springboot.domain.Book;
+import com.myproject.springboot.domain.Original;
 import com.myproject.springboot.repository.BookInfoRepository;
+import com.myproject.springboot.repository.OriginalRepository;
 
 @Service
 public class BookInfoService {
 
 	@Autowired
 	BookInfoRepository bookInfoRepository;
+
+	@Autowired
+	OriginalRepository originalRepository;
 
 	// 何も考えずに全検索
 	public List<Book> findAll(Boolean eFlag) {
@@ -44,18 +53,32 @@ public class BookInfoService {
 		return bookList;
 	}
 
+	// パスを作成
+	public String createPath(Integer bookId) {
+		Book book = bookInfoRepository.findDetail(bookId);
+		Original original = originalRepository.findById(book.getOriginalId());
+		String path = original.getTitle() + "/" + book.getTitle();
+		System.out.println("PATH作成完了！："+path);
+		return path;
+	}
+
 	// フォルダオープン
 	public void openFolder(String path) {
 		try {
+			// 起動中のOS名を取得し、それぞれの環境用のコマンドを流す
 			Runtime rt = Runtime.getRuntime();
 			String cmd;
+			String masterPath;
 			String osNAME = System.getProperty("os.name").toLowerCase();
 			System.out.println(osNAME);
-			path = "/Users/youmon/Downloads";
 			if (osNAME.equals("mac os x")) {
+				masterPath = "/Users/youmon/Downloads";
+				path = masterPath + "/" + path;
 				cmd = "/usr/bin/open -a /System/Library/CoreServices/Finder.app " + path;
 				rt.exec(cmd);
 			} else if (osNAME.equals("windows")) {
+				masterPath = "";
+				path = masterPath + "/" + path;
 				cmd = "explorer " + path;
 				rt.exec(cmd);
 			} else {

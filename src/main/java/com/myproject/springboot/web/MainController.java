@@ -78,11 +78,7 @@ public class MainController {
 	public ModelAndView viewDetail(@RequestParam("rFlag") boolean rFlag, @RequestParam("bookId") Integer bookId,
 			ModelAndView mav) {
 		Book book = bookInfoService.findDetail(bookId);
-		if (rFlag) {
-			mav.setViewName("rdetail");
-		} else {
-			mav.setViewName("normaldetail");
-		}
+		mav.setViewName("bookdetail");
 		mav.addObject(book);
 		mav.addObject("rFlag", rFlag);
 		return mav;
@@ -91,8 +87,8 @@ public class MainController {
 	// 本を開く(非同期
 	@RequestMapping(value = "/openBook", method = RequestMethod.GET)
 	public void openFolder(String bookId) {
-		/** ここでDB接続し、フォルダの場所を取得する */
-		bookInfoService.openFolder(null); // フォルダオープンテスト
+		String path = bookInfoService.createPath(Integer.parseInt(bookId));
+		bookInfoService.openFolder(path); // フォルダオープンテスト
 	}
 
 	// 評価更新(非同期

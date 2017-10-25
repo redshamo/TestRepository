@@ -69,4 +69,5 @@ public class BookInfoRepository {
 		Book book = jdbcTemplate.queryForObject("SELECT * FROM bookinfo WHERE id = :id", param, BOOK_ROW_MAPPER);
 		return book;
 	}
+	
 }
